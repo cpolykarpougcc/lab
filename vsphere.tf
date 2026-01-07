@@ -35,7 +35,7 @@ data "vsphere_compute_cluster" "cluster" {
 # VM Folder (ABSOLUTE PATH)
 # ------------------------
 data "vsphere_folder" "vm_folder" {
-  path = "LAB Datacenter/vm/SYSENG/Charis"
+  path = "SYSENG/Charis"
 }
 
 # ------------------------
