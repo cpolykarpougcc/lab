@@ -32,10 +32,10 @@ data "vsphere_compute_cluster" "cluster" {
 }
 
 # ------------------------
-# VM Folder (SYSENG/Charis)
+# VM Folder (ABSOLUTE PATH)
 # ------------------------
 data "vsphere_folder" "vm_folder" {
-  path = "SYSENG/Charis"
+  path = "LAB Datacenter/vm/SYSENG/Charis"
 }
 
 # ------------------------
@@ -55,7 +55,7 @@ data "vsphere_network" "network" {
 }
 
 # ------------------------
-# VM Template (MUST be TEMPLATE)
+# VM Template
 # ------------------------
 data "vsphere_virtual_machine" "template" {
   name          = "charis_temp"
