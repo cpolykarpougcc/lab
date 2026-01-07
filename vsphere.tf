@@ -16,30 +16,36 @@ provider "vsphere" {
   allow_unverified_ssl = true
 }
 
+# Datacenter
 data "vsphere_datacenter" "dc" {
   name = "LAB Datacenter"
 }
 
+# Resource Pool (fixed)
 data "vsphere_resource_pool" "pool" {
   name          = "Resources"
-  resource_pool_id = data.vsphere_compute_cluster.compute_cluster.resource_pool_id
+  datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+# Datastore
 data "vsphere_datastore" "datastore" {
   name          = "DS3"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+# Network
 data "vsphere_network" "network" {
   name          = "DEV_LAB VM Network"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+# Template VM
 data "vsphere_virtual_machine" "ubuntu20_04" {
   name          = "ubuntu20-04-temp"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+# New VM
 resource "vsphere_virtual_machine" "ubu_testing" {
   name     = "ubu-test"
   num_cpus = 2
@@ -80,6 +86,7 @@ resource "vsphere_virtual_machine" "ubu_testing" {
   }
 }
 
+# Outputs
 output "VM_Name" {
   value = vsphere_virtual_machine.ubu_testing.name
 }
@@ -87,4 +94,3 @@ output "VM_Name" {
 output "VM_IP_Address" {
   value = vsphere_virtual_machine.ubu_testing.guest_ip_addresses
 }
-
