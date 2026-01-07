@@ -1,16 +1,16 @@
 variable "vsphere_server" {
-  description = "vCenter or ESXi server FQDN/IP"
+  description = "vCenter Server FQDN or IP"
   type        = string
 }
 
 variable "vsphere_user" {
-  description = "vSphere username"
-  type        = string
-}
-
-variable "vsphere_password" {
-  description = "vSphere password"
+  description = "vCenter username"
   type        = string
   sensitive   = true
 }
 
+variable "vsphere_password" {
+  description = "vCenter password"
+  type        = string
+  sensitive   = true
+}
