@@ -32,6 +32,15 @@ data "vsphere_compute_cluster" "cluster" {
 }
 
 # ------------------------
+# VM Folder (SYSENG/Charis)
+# ------------------------
+data "vsphere_folder" "vm_folder" {
+  path          = "SYSENG/Charis"
+  type          = "vm"
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+# ------------------------
 # Datastore
 # ------------------------
 data "vsphere_datastore" "datastore" {
@@ -48,7 +57,7 @@ data "vsphere_network" "network" {
 }
 
 # ------------------------
-# VM Template
+# VM Template (MUST be a TEMPLATE)
 # ------------------------
 data "vsphere_virtual_machine" "template" {
   name          = "charis_temp"
@@ -60,6 +69,7 @@ data "vsphere_virtual_machine" "template" {
 # ------------------------
 resource "vsphere_virtual_machine" "ubu_testing" {
   name             = "ubu-test"
+  folder           = data.vsphere_folder.vm_folder.path
   num_cpus         = 2
   memory           = 4096
   guest_id         = data.vsphere_virtual_machine.template.guest_id
@@ -75,7 +85,7 @@ resource "vsphere_virtual_machine" "ubu_testing" {
 
   disk {
     label            = "disk0"
-    size             = 50
+    size             = data.vsphere_virtual_machine.template.disks[0].size
     thin_provisioned = true
   }
 
