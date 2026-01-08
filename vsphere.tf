@@ -24,7 +24,7 @@ data "vsphere_datacenter" "dc" {
 }
 
 # ------------------------
-# Cluster
+# Compute Cluster
 # ------------------------
 data "vsphere_compute_cluster" "cluster" {
   name          = "Cluster_G10"
@@ -75,6 +75,8 @@ resource "vsphere_virtual_machine" "ubu_testing" {
     network_id   = data.vsphere_network.network.id
     adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
   }
+
+  # ❗ DO NOT DEFINE disk {} WHEN CLONING — avoids "OS not found"
 
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id

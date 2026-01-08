@@ -15,6 +15,6 @@ variable "vsphere_password" {
 }
 
 variable "vsphere_folder" {
-  description = "VM folder path inside Datacenter (relative to /vm)"
+  description = "VM folder path relative to Datacenter /vm"
   type        = string
 }
