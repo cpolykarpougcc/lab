@@ -35,7 +35,7 @@ data "vsphere_compute_cluster" "cluster" {
 # VM Folder (ABSOLUTE PATH)
 # ------------------------
 data "vsphere_folder" "vm_folder" {
-  path = "LAB Datacenter/vm/SYSENG/Charis"
+  path = "/${data.vsphere_datacenter.datacenter.name}/vm/${var.vsphere_folder}"
 }
 
 # ------------------------
@@ -67,7 +67,7 @@ data "vsphere_virtual_machine" "template" {
 # ------------------------
 resource "vsphere_virtual_machine" "ubu_testing" {
   name             = "ubu-test"
-  folder           = data.vsphere_folder.vm_folder.path
+  folder           = trimprefix(data.vsphere_folder.folder.path, "/${data.vsphere_datacenter.datacenter.name}/vm")
   num_cpus         = 2
   memory           = 4096
 
