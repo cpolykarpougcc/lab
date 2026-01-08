@@ -32,13 +32,6 @@ data "vsphere_compute_cluster" "cluster" {
 }
 
 # ------------------------
-# VM Folder (ABSOLUTE – lookup only)
-# ------------------------
-data "vsphere_folder" "vm_folder" {
-  path = "LAB Datacenter/vm/SYSENG/Charis"
-}
-
-# ------------------------
 # Datastore
 # ------------------------
 data "vsphere_datastore" "datastore" {
@@ -67,7 +60,7 @@ data "vsphere_virtual_machine" "template" {
 # ------------------------
 resource "vsphere_virtual_machine" "ubu_testing" {
   name   = "ubu-test"
-  folder = "SYSENG/Charis"   # ✅ RELATIVE PATH ONLY
+  folder = var.vsphere_folder
 
   num_cpus = 2
   memory   = 4096
@@ -81,12 +74,6 @@ resource "vsphere_virtual_machine" "ubu_testing" {
   network_interface {
     network_id   = data.vsphere_network.network.id
     adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
-  }
-
-  disk {
-    label            = "disk0"
-    size             = data.vsphere_virtual_machine.template.disks[0].size
-    thin_provisioned = true
   }
 
   clone {
