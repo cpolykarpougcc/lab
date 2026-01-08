@@ -32,7 +32,7 @@ data "vsphere_compute_cluster" "cluster" {
 }
 
 # ------------------------
-# VM Folder (ABSOLUTE PATH – REQUIRED)
+# VM Folder (ABSOLUTE – lookup only)
 # ------------------------
 data "vsphere_folder" "vm_folder" {
   path = "LAB Datacenter/vm/SYSENG/Charis"
@@ -66,10 +66,11 @@ data "vsphere_virtual_machine" "template" {
 # Virtual Machine
 # ------------------------
 resource "vsphere_virtual_machine" "ubu_testing" {
-  name             = "ubu-test"
-  folder           = data.vsphere_folder.vm_folder.path
-  num_cpus         = 2
-  memory           = 4096
+  name   = "ubu-test"
+  folder = "SYSENG/Charis"   # ✅ RELATIVE PATH ONLY
+
+  num_cpus = 2
+  memory   = 4096
 
   guest_id  = data.vsphere_virtual_machine.template.guest_id
   scsi_type = data.vsphere_virtual_machine.template.scsi_type
